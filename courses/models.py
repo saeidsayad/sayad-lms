@@ -110,3 +110,17 @@ class EnrollmentRequest(models.Model):
 
     def __str__(self):
         return f"{self.student} -> {self.course}"
+
+
+class SiteSetting(models.Model):
+    site_name = models.CharField(max_length=200, default="آکادمی پایتون", verbose_name="نام سایت")
+    favicon = models.ImageField(upload_to='site/', blank=True, null=True, verbose_name="آیکون مرورگر (Favicon)")
+    logo = models.ImageField(upload_to='site/', blank=True, null=True, verbose_name="لوگوی سایت (منو)")
+    
+    def __str__(self):
+        return self.site_name
+
+    class Meta:
+        verbose_name = "تنظیمات سایت"
+        verbose_name_plural = "تنظیمات سایت"
+        

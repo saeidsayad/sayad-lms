@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import CourseTemplate, ExerciseTemplate, Course, Exercise, Submission
-from .models import EnrollmentRequest
+from .models import EnrollmentRequest, SiteSetting 
 from django.utils.html import format_html
 
 
@@ -98,3 +98,11 @@ class EnrollmentRequestAdmin(admin.ModelAdmin):
     list_filter = ['course']
     actions = [approve_enrollment]
     
+
+@admin.register(SiteSetting)
+class SiteSettingAdmin(admin.ModelAdmin):
+    # این تابع باعث می‌شود نتوانید بیشتر از یک تنظیمات بسازید (فقط یکی کافیست)
+    def has_add_permission(self, request):
+        if self.model.objects.exists():
+            return False
+        return True
