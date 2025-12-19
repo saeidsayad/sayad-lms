@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}ثبت نام در سامانه{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0 rounded-lg">
+            
+            <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="fw-bold m-0">🎓 ثبت نام دانشجوی جدید</h4>
+                <small class="opacity-75">به جمع دانشجویان ما بپیوندید</small>
+            </div>
+            
+            <div class="card-body p-4">
+                
+                {% if form.errors %}
+                    <div class="alert alert-danger p-2 mb-3">
+                        <ul class="mb-0 small ps-3">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary small">{{ field.label }}</label>
+                            
+                            {{ field }}
+                            
+                            </div>
+                    {% endfor %}
+
+                    <div class="alert alert-light border bg-light mt-4 mb-3">
+                        <h6 class="fw-bold text-dark mb-2" style="font-size: 13px;">نکات مهم قبل از ثبت‌نام:</h6>
+                        <ul class="mb-0 text-muted small pe-3" style="list-style-type: circle;">
+                            <li>رمز عبور باید حداقل ۸ کاراکتر و غیرقابل حدس باشد.</li>
+                            <li>لطفاً ایمیل واقعی وارد کنید، لینک فعال‌سازی ارسال می‌شود.</li>
+                            <li>دوره آموزشی خود را با دقت انتخاب کنید.</li>
+                        </ul>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                            تکمیل ثبت نام
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card-footer text-center py-3 bg-white border-top-0">
+                <div class="small text-muted">
+                    قبلاً حساب ساخته‌اید؟ 
+                    <a href="{% url 'account_login' %}" class="fw-bold text-decoration-none">وارد شوید</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // اضافه کردن کلاس بوت‌استرپ به تمام اینپوت‌ها و سلکت‌ها
+    document.querySelectorAll('input, select').forEach(input => {
+        input.classList.add('form-control');
+        
+        // اگر اینپوت از نوع پسورد یا ایمیل بود، چپ‌چین شود
+        if(input.type === 'password' || input.type === 'email') {
+            input.style.direction = 'ltr';
+        }
+    });
+    
+    // فیلد انتخاب دوره چون select است کلاس form-select میگیرد
+    document.querySelectorAll('select').forEach(select => {
+        select.classList.remove('form-control');
+        select.classList.add('form-select');
+    });
+</script>
+{% endblock %}

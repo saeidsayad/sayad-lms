@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}تماس با ما{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-10">
+        <div class="card shadow-lg border-0 overflow-hidden">
+            <div class="row g-0">
+                
+                <div class="col-md-5 bg-primary text-white p-5 d-flex flex-column justify-content-center">
+                    <h3 class="fw-bold mb-4">ارتباط با ما</h3>
+                    <p class="opacity-75 mb-5">
+                        برای مشاوره در مورد دوره‌ها یا پشتیبانی فنی، از طریق راه‌های زیر با ما در ارتباط باشید.
+                    </p>
+
+                    <div class="d-flex align-items-center mb-4">
+                        <span class="fs-4 me-3">📞</span>
+                        <div>
+                            <small class="opacity-75 d-block">شماره تماس / واتس‌اپ</small>
+                            <a href="tel:09398541377" class="text-white text-decoration-none fw-bold" style="letter-spacing: 1px;">
+                                1377 854 0939
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-4">
+                        <span class="fs-4 me-3">📧</span>
+                        <div>
+                            <small class="opacity-75 d-block">ایمیل پشتیبانی</small>
+                            <a href="mailto:saeidsayyad1995@gmail.com" class="text-white text-decoration-none fw-bold">
+                                saeidsayyad1995@gmail.com
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-4">
+                        <span class="fs-4 me-3">✈️</span>
+                        <div>
+                            <small class="opacity-75 d-block">تلگرام</small>
+                            <a href="https://t.me/saeid_hig20" target="_blank" class="text-white text-decoration-none fw-bold">
+                                @saeid_hig20
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-4">
+                        <a href="https://wa.me/989398541377" class="btn btn-outline-light btn-sm rounded-pill px-3 me-2">WhatsApp</a>
+                        <a href="https://t.me/saeid_hig20" class="btn btn-outline-light btn-sm rounded-pill px-3">Telegram</a>
+                    </div>
+                </div>
+
+                <div class="col-md-7 bg-white p-5">
+                    <h4 class="fw-bold text-primary mb-4">ارسال پیام</h4>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">نام و نام خانوادگی</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label text-muted small">ایمیل شما</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">موضوع پیام</label>
+                            <input type="text" class="form-control" name="subject" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">متن پیام</label>
+                            <textarea class="form-control" name="message" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary py-2 shadow-sm">
+                                ارسال پیام
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

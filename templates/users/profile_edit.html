@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}ویرایش پروفایل{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">✏️ ویرایش اطلاعات کاربری</h4>
+            </div>
+            <div class="card-body">
+                
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label text-muted">آدرس ایمیل (نام کاربری)</label>
+                        <input type="text" class="form-control" value="{{ user.email }}" disabled>
+                        <div class="form-text">برای تغییر ایمیل به تنظیمات حساب بروید.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.first_name.label_tag }}
+                        {{ form.first_name }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.last_name.label_tag }}
+                        {{ form.last_name }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">💾 ذخیره تغییرات</button>
+                </form>
+
+                <hr class="my-4">
+
+                <h6 class="text-muted mb-3">سایر تنظیمات:</h6>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'account_change_password' %}" class="btn btn-outline-secondary flex-fill">
+                        🔒 تغییر رمز عبور
+                    </a>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

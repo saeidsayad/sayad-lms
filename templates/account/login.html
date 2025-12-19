@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block title %}ورود به سامانه{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white text-center">
+                <h4>🔐 ورود به حساب</h4>
+            </div>
+            <div class="card-body">
+                
+                {% if form.errors %}
+                    <div class="alert alert-danger p-2 small">
+                        نام کاربری یا رمز عبور اشتباه است.
+                    </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label>ایمیل:</label>
+                        {{ form.login }}
+                    </div>
+                    <div class="mb-3">
+                        <label>رمز عبور:</label>
+                        {{ form.password }}
+                    </div>
+                    
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    
+                    <button type="submit" class="btn btn-primary w-100">ورود</button>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'account_signup' %}">هنوز ثبت نام نکرده‌اید؟</a> | 
+                <a href="{% url 'account_reset_password' %}">فراموشی رمز</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // زیباسازی فیلدها
+    document.querySelectorAll('input').forEach(input => {
+        input.classList.add('form-control');
+        if(input.type === 'password' || input.name === 'login') {
+            input.style.direction = 'ltr';
+        }
+    });
+</script>
+{% endblock %}

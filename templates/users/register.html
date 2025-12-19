@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}ثبت نام در سامانه{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-lg border-0 rounded-lg">
+            
+            <div class="card-header bg-primary text-white text-center py-4">
+                <h3 class="fw-bold m-0">🎓 ثبت نام دانشجو</h3>
+                <small class="opacity-75">به جمع دانشجویان ما بپیوندید</small>
+            </div>
+            
+            <div class="card-body p-4">
+                
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <ul class="mb-0 small">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary small">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text small text-muted">{{ field.help_text|safe }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                            تکمیل ثبت نام
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card-footer text-center py-3 bg-light">
+                <div class="small">
+                    قبلاً ثبت نام کرده‌اید؟ 
+                    <a href="{% url 'users:login' %}" class="fw-bold text-decoration-none">وارد شوید</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

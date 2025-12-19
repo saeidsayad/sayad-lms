@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}تمرین: {{ exercise.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-warning text-dark fw-bold">
+                📝 صورت سوال: {{ exercise.title }}
+            </div>
+            <div class="card-body">
+                <p class="card-text" style="line-height: 1.8;">{{ exercise.problem_statement|linebreaks }}</p>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-success">
+            <div class="card-header bg-success text-white">
+                📤 ارسال پاسخ جدید
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        {{ form.submitted_file.label_tag }}
+                        {{ form.submitted_file }}
+                        <div class="form-text">فایل‌های .py یا .zip مجاز هستند.</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.description.label_tag }}
+                        {{ form.description }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">ارسال تمرین</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <h5 class="mb-3 text-muted">🕒 تاریخچه ارسال‌های شما</h5>
+        
+        {% if previous_submissions %}
+            {% for sub in previous_submissions %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between text-muted small mb-2">
+                        <span>{{ sub.submitted_at|date:"Y/m/d" }}</span>
+                        <span>{{ sub.submitted_at|date:"H:i" }}</span>
+                    </div>
+                    
+                    {% if sub.description %}
+                        <p class="bg-light p-2 rounded small border">{{ sub.description }}</p>
+                    {% endif %}
+                    
+                    <a href="{{ sub.submitted_file.url }}" class="btn btn-outline-secondary btn-sm w-100" download>
+                        ⬇️ دانلود فایل این ارسال
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-secondary text-center">
+                هنوز پاسخی ارسال نکرده‌اید.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

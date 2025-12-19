@@ -1,0 +1,14 @@
+{
+  "app": "sayad-lms",
+  "port": 80,
+  "build": {
+    "location": "iran"
+  },
+  "disks": [],
+  "args": [
+      "gunicorn",
+      "config.wsgi:application",  
+      "--bind",
+      "0.0.0.0:8000"
+  ]
+}

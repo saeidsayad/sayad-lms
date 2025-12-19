@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}آکادمی آموزش پایتون | شروع برنامه‌نویسی{% endblock %}
+
+{% block content %}
+
+<div class="row align-items-center py-5 mt-3">
+    <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0 order-lg-2">
+        <div style="font-size: 150px; line-height: 1;">🚀</div>
+    </div>
+    
+    <div class="col-lg-6 order-lg-1">
+        <h1 class="display-4 fw-bold text-dark mb-3">
+            مسیر حرفه‌ای شدن در
+            <span class="text-primary">پایتون</span>
+        </h1>
+        <p class="lead text-muted mb-4" style="line-height: 1.8;">
+            یادگیری برنامه‌نویسی را با پروژه‌های واقعی و پشتیبانی منتور تجربه کنید.
+            ما در کنارتان هستیم تا از صفر به یک متخصص تبدیل شوید.
+        </p>
+        <div class="d-grid d-md-flex gap-3 justify-content-center justify-content-lg-end">
+            <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm">
+                شروع یادگیری رایگان
+            </a>
+            <a href="{% url 'courses:course_list' %}" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
+                مشاهده دوره‌ها
+            </a>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5 opacity-25">
+
+<div class="row text-center py-4">
+    <div class="col-12 mb-5">
+        <h2 class="fw-bold">چرا آکادمی ما؟</h2>
+        <p class="text-muted">تفاوت ما در شیوه آموزش و پیگیری تمرینات شماست</p>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm py-4">
+            <div class="card-body">
+                <div class="display-4 mb-3">📝</div>
+                <h5 class="fw-bold">تمرینات عملی</h5>
+                <p class="text-muted small">یادگیری بدون تمرین ممکن نیست. تمام دوره‌ها شامل تمرینات واقعی هستند.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm py-4">
+            <div class="card-body">
+                <div class="display-4 mb-3">👨‍🏫</div>
+                <h5 class="fw-bold">بررسی توسط استاد</h5>
+                <p class="text-muted small">کد شما توسط استاد بررسی می‌شود و بازخورد اختصاصی دریافت می‌کنید.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm py-4">
+            <div class="card-body">
+                <div class="display-4 mb-3">🔒</div>
+                <h5 class="fw-bold">مسیر گام‌به‌گام</h5>
+                <p class="text-muted small">دسترسی به مراحل بعدی منوط به یادگیری کامل مراحل قبلی است.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-primary text-white rounded-4 p-5 text-center mt-5 mb-5 shadow" 
+     style="background: linear-gradient(45deg, rgba(13,110,253,1) 0%, rgba(13,202,240,1) 100%);">
+    <h3 class="fw-bold mb-3">آماده شروع هستید؟</h3>
+    <p class="mb-4 opactiy-75">همین حالا ثبت‌نام کنید و به جمع دانشجویان بپیوندید.</p>
+    <a href="{% url 'account_signup' %}" class="btn btn-light text-primary fw-bold px-5 py-2 rounded-pill shadow-sm">
+        ثبت‌نام و شروع
+    </a>
+</div>
+
+{% endblock %}

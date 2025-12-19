@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}داشبورد آموزشی{% endblock %}
+
+{% block content %}
+
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="fw-bold text-success mb-4 border-bottom pb-2">
+            👨‍🎓 دوره‌های فعال من
+        </h2>
+    </div>
+
+    {% if my_courses %}
+        {% for course in my_courses %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow border-success" style="border-width: 2px;">
+                <div class="card-header bg-success text-white d-flex justify-content-between">
+                    <span>{{ course.template.title }}</span>
+                    <span class="badge bg-white text-success rounded-pill">دوره {{ course.course_number }}</span>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">{{ course.description|truncatewords:15 }}</p>
+                    <div class="d-grid">
+                        <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-success">
+                            ورود به کلاس و حل تمرین 🚀
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                شما هنوز در هیچ دوره‌ای ثبت‌نام نکرده‌اید. از لیست پایین انتخاب کنید.
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h3 class="fw-bold text-secondary mb-4 border-bottom pb-2">
+            📚 سایر دوره‌های قابل ثبت‌نام
+        </h3>
+    </div>
+
+    {% if available_courses %}
+        {% for course in available_courses %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 border-0 shadow-sm bg-light">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-dark">{{ course.template.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">دوره شماره {{ course.course_number }}</h6>
+                    <p class="card-text small text-secondary">{{ course.description|truncatewords:20 }}</p>
+                    
+                    <div class="d-grid mt-3">
+                        {% if course.id in pending_ids %}
+                            <button class="btn btn-warning text-dark opacity-75" disabled style="cursor: not-allowed;">
+                                ⏳ در انتظار تایید استاد
+                            </button>
+                        {% else %}
+                            <form action="{% url 'courses:enroll' course.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-primary w-100">
+                                    + ارسال درخواست ثبت‌نام
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <p class="text-muted text-center">در حال حاضر دوره جدیدی برای ثبت‌نام وجود ندارد.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

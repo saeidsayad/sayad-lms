@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}ورود{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card shadow-lg">
+            <div class="card-header bg-dark text-white text-center py-3">
+                <h4 class="m-0">ورود به سامانه</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                         {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">ورود</button>
+                </form>
+            </div>
+            
+            <div class="card-footer text-center bg-white">
+                حساب ندارید؟ <a href="{% url 'users:register' %}" class="text-decoration-none fw-bold">ثبت نام کنید</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

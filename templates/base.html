@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}سامانه آموزشی پایتون{% endblock %}</title>
+    
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    
+    <style>
+        :root {
+            /* تعریف رنگ شما به عنوان متغیر اصلی */
+            --brand-color: rgba(13, 110, 253, 1);
+            --brand-hover: rgba(10, 88, 202, 1); /* کمی تیره‌تر برای وقتی موس روی دکمه میره */
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #f3f4f6; /* رنگ پس‌زمینه کلی سایت (طوسی خیلی خیلی روشن) */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- استایل‌های سفارشی برای یکپارچگی رنگ --- */
+        
+        /* منوی بالا */
+        .navbar-custom {
+            background-color: var(--brand-color) !important;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.2);
+        }
+        
+        /* دکمه‌های اصلی */
+        .btn-primary {
+            background-color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: var(--brand-hover);
+            border-color: var(--brand-hover);
+        }
+        
+        /* لینک‌ها */
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+        }
+        a:hover {
+            color: var(--brand-hover);
+        }
+
+        /* کارت‌ها */
+        .card {
+            border: none;
+            border-radius: 12px; /* گوشه‌های گردتر */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); /* سایه نرم و مدرن */
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+        
+        /* فوتر */
+        footer {
+            margin-top: auto; /* فوتر همیشه پایین می‌چسبد */
+            background: #fff;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .main-content {
+            padding-top: 30px;
+            padding-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                🐍 آکادمی پایتون
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'courses:course_list' %}">داشبورد دوره‌ها</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact' %}">تماس با ما</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex text-white align-items-center">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'users:edit_profile' %}" class="nav-link text-white fw-bold mx-3">
+                            👤 {{ user.first_name|default:user.email }}
+                        </a>
+                        <a href="{% url 'account_logout' %}" class="btn btn-light btn-sm text-primary fw-bold">خروج</a>
+                    {% else %}
+                        <a href="{% url 'account_login' %}" class="btn btn-light btn-sm mx-2 text-primary fw-bold">ورود</a>
+                        <a href="{% url 'account_signup' %}" class="btn btn-outline-light btn-sm">ثبت نام</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="text-center text-muted py-4">
+        <small>© 1402 - سامانه آموزش برنامه‌نویسی | طراحی شده با جنگو</small>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
