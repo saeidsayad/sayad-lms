@@ -4,7 +4,12 @@
   "build": {
     "location": "iran"
   },
-  "disks": [],
+  "disks": [
+  {
+    "name": "my-disk",
+    "mountTo": "/usr/src/app/media"
+  }
+],
   "args": [
       "gunicorn",
       "config.wsgi:application",  

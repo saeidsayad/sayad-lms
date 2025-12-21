@@ -2,12 +2,13 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import random
 
+
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='آدرس ایمیل')
     is_student = models.BooleanField(default=True, verbose_name='دانشجو')
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name'] 
+    REQUIRED_FIELDS = ['first_name', 'last_name'] 
     # توجه: username را در لیست بالا نگه دارید تا اگر خواستید با دستور createsuperuser ادمین بسازید به مشکل نخورید
 
     def __str__(self):

@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     
     'users.apps.UsersConfig',
     'courses.apps.CoursesConfig',
-    
-    'storages',
 ]
 
 MIDDLEWARE = [
@@ -92,7 +90,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3', conn_max_age=600)
 }
 
 
@@ -130,7 +128,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -138,10 +136,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 
 MEDIA_URL = '/media/'
-
-MEDIA_ROOT = BASE_DIR / 'media'
-
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # --- تنظیمات احراز هویت و ایمیل ---
 SITE_ID = 1
@@ -181,32 +176,6 @@ LOGOUT_REDIRECT_URL = 'account_login'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-AWS_S3_ENDPOINT_URL = os.getenv('LIARA_ENDPOINT_URL')
-
-
-if not DEBUG: # یعنی فقط روی سرور اینجوری باشد
-    AWS_ACCESS_KEY_ID = os.getenv('LIARA_ACCESS_KEY')
-    AWS_SECRET_ACCESS_KEY = os.getenv('LIARA_SECRET_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('LIARA_BUCKET_NAME')
-    AWS_S3_ENDPOINT_URL = os.getenv('LIARA_ENDPOINT_URL')
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
-    AWS_LOCATION = 'media'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    # MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.{os.getenv("LIARA_ENDPOINT_URL").split("://")[1]}/{AWS_LOCATION}/'
-    if AWS_S3_ENDPOINT_URL:
-    # حذف https:// از ابتدای آدرس برای ساختن لینک دانلود
-        endpoint_clean = AWS_S3_ENDPOINT_URL.replace("https://", "").replace("http://", "")
-        MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.{endpoint_clean}/{AWS_LOCATION}/'
-    else:
-        MEDIA_URL = '/media/' # جهت جلوگیری از کرش کردن در صورت نبودن متغیر
-        
-else:
-    # روی لوکال همان روش قبلی
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    
 
 if not DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -217,7 +186,6 @@ if not DEBUG:
     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
     DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 else:
-    # روی لوکال فقط چاپ کن
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # پیشوند عنوان ایمیل‌ها

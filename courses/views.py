@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.contrib import messages
-from .models import Course, Exercise
+from .models import Course, Exercise, Submission
 from .forms import SubmissionForm
 from .models import Course, EnrollmentRequest
 from django.core.mail import send_mail
@@ -35,14 +35,38 @@ def course_detail(request, course_id):
     is_enrolled = request.user in course.students.all()
     
     exercises = []
+    # مقادیر اولیه برای درصد پیشرفت (برای حالتی که ثبت‌نام نکرده)
+    progress_percentage = 0
+    submitted_count = 0
+    total_exercises = 0
+
     if is_enrolled:
         # فقط تمرینات همین دوره را می‌گیریم
         exercises = course.exercises.all().order_by('order')
+        
+        # 1. محاسبه تعداد کل تمرین‌های این دوره
+        total_exercises = exercises.count()
+
+        # 2. محاسبه تعداد تمرین‌هایی که دانشجو انجام داده
+        # نکته: از values و distinct استفاده می‌کنیم تا اگر برای یک تمرین چند بار فایل فرستاده، فقط یکی حساب شود
+        submitted_count = Submission.objects.filter(
+            student=request.user,
+            exercise__in=exercises
+        ).values('exercise').distinct().count()
+
+        # 3. محاسبه درصد (با شرط اینکه مخرج صفر نشود)
+        if total_exercises > 0:
+            progress_percentage = int((submitted_count / total_exercises) * 100)
 
     context = {
         'course': course,
         'is_enrolled': is_enrolled,
-        'exercises': exercises
+        'exercises': exercises,
+        
+        # ارسال متغیرهای جدید به قالب
+        'progress_percentage': progress_percentage,
+        'submitted_count': submitted_count,
+        'total_exercises': total_exercises,
     }
     return render(request, 'courses/course_detail.html', context)
 

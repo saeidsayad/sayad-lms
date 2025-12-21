@@ -9,23 +9,37 @@ class ExerciseTemplateInline(admin.StackedInline):
     model = ExerciseTemplate
     extra = 1
 
+
 @admin.register(CourseTemplate)
 class CourseTemplateAdmin(admin.ModelAdmin):
     inlines = [ExerciseTemplateInline]
+
 
 # --- اکشن‌های سفارشی برای تمرینات ---
 @admin.action(description='🔓 باز کردن قفل تمرین‌های انتخاب شده')
 def unlock_exercises(modeladmin, request, queryset):
     queryset.update(is_locked=False)
 
+
 @admin.action(description='🔒 قفل کردن تمرین‌های انتخاب شده')
 def lock_exercises(modeladmin, request, queryset):
     queryset.update(is_locked=True)
+
 
 # --- مدیریت دوره‌های اجرایی ---
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['title', 'template', 'course_number', 'created_at']
+    
+    # خطط کلیدی
+    filter_horizontal = ('students',)
+    search_fields = (
+        'title',
+        'students__email',
+        'students__first_name',
+        'students__last_name',
+    )
+
 
 @admin.register(Exercise)
 class ExerciseAdmin(admin.ModelAdmin):
