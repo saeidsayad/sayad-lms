@@ -8,7 +8,7 @@ class CustomUser(AbstractUser):
     is_student = models.BooleanField(default=True, verbose_name='دانشجو')
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name'] 
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'username'] 
     # توجه: username را در لیست بالا نگه دارید تا اگر خواستید با دستور createsuperuser ادمین بسازید به مشکل نخورید
 
     def __str__(self):

@@ -7,7 +7,7 @@
     <div class="col-md-7">
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-warning text-dark fw-bold">
-                📝 صورت سوال: {{ exercise.title }}
+                📝 صورت سوال {{ exercise.order }}: {{ exercise.title }}
             </div>
             <div class="card-body">
                 <p class="card-text" style="line-height: 1.8;">{{ exercise.problem_statement|linebreaks }}</p>

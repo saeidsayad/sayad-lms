@@ -5,6 +5,8 @@ from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserProfileForm
+from allauth.account.views import SignupView
+from smtplib import SMTPRecipientsRefused
 
 
 # ویوی ثبت‌نام
@@ -58,3 +60,22 @@ def edit_profile(request):
     
     return render(request, 'users/profile_edit.html', {'form': form})
 
+class CustomSignupView(SignupView):
+    def form_valid(self, form):
+        try:
+            response = super().form_valid(form)
+            messages.success(
+                self.request,
+                "ایمیل تأیید برای شما ارسال شد. لطفاً صندوق ورودی را بررسی کنید."
+            )
+            return response
+
+        except SMTPRecipientsRefused:
+            if self.user:
+                self.user.delete()
+
+            messages.error(
+                self.request,
+                "ایمیلی که وارد کرده‌اید معتبر نیست."
+            )
+            return self.form_invalid(form)

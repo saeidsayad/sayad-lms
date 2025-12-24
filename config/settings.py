@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     
     'users.apps.UsersConfig',
     'courses.apps.CoursesConfig',
+    
+    'maintenance',
 ]
 
 MIDDLEWARE = [
