@@ -189,6 +189,3 @@ if not DEBUG:
     DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# پیشوند عنوان ایمیل‌ها
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "[آکادمی پایتون] "
